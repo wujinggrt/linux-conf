@@ -19,8 +19,6 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-easy-align'
 
-Plug 'suan/vim-instant-markdown'
-
 " C++ highlight
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'ludovicchabant/vim-gutentags'
@@ -107,6 +105,7 @@ nnoremap <silent> <F9> :AsyncRun clang++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_F
 " 的意思时在文件文件的所在目录运行可执行，后面可执行使用了全路径，避免 linux
 " 下面当前路径加 “./” 而 windows 不需要的跨平台问题。
 nnoremap <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+nnoremap <silent> <F6> :AsyncRun clang++ -Wall "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 
 " 设置 F10 打开/关闭 Quickfix 窗口
 nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr><C-w>j<C-w>_<cr>
@@ -256,13 +255,13 @@ call Terminal_MetaMode(0)
 set vb t_vb=
 set expandtab
 set nu
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 set ai
 set syntax=on
 set hlsearch
 
-set pastetoggle=<F2>
+set pastetoggle=<F8>
 
 " ctrl + h/j/k/l to switch window
 noremap <C-h> <C-w>h
