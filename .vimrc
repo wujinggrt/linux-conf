@@ -12,6 +12,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'luochen1990/rainbow'
 
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+
 Plug 'skywind3000/asyncrun.vim'
 Plug 'mhinz/vim-startify'
 Plug 'scrooloose/nerdtree'
@@ -48,6 +50,15 @@ highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
 highlight PMenuSel ctermfg=242 ctermbg=8 guifg=darkgrey guibg=black
 
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+
+" instant markdown
+"Uncomment to override defaults:
+let g:instant_markdown_slow = 1
+let g:instant_markdown_autostart = 0
+let g:instant_markdown_open_to_the_world = 1 
+let g:instant_markdown_allow_unsafe_content = 1
+let g:instant_markdown_allow_external_content = 0
+let g:instant_markdown_mathjax = 1
 
 " air-line config
 " Always show status bar.
@@ -280,3 +291,10 @@ noremap <Leader>N nzz
 
 inoremap jj <Esc>
 
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {<C-j> {<CR>}<ESC>O
+inoremap {} {}
+inoremap {; {<CR>};<ESC>O
+
+"vim 和终端背景一致：添加下面到 .vimrc
+hi Normal ctermfg=252 ctermbg=none
