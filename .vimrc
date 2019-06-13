@@ -8,7 +8,6 @@ Plug 'w0ng/vim-hybrid'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tomasr/molokai'
-Plug 'itchyny/lightline.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'luochen1990/rainbow'
 
@@ -85,7 +84,9 @@ let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
+let g:airline_symbols.crypt = '🔒'
 let g:airline_symbols.linenr = ''
+let g:airline_symbols.maxlinenr = '㏑'
 let g:airline_symbols.paste = 'ρ'
 let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = ''
@@ -288,8 +289,8 @@ noremap # #zz
 " 设置查找的时候居中
 noremap <Leader>n nzz
 noremap <Leader>N nzz
-noremap <C-h> b
-noremap <C-l> e
+noremap <S-h> b
+noremap <S-l> e
 noremap <C-o> <C-o>zz
 noremap <C-i> <C-i>zz
 
