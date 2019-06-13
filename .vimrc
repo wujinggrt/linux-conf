@@ -42,7 +42,7 @@ noremap <leader>w :w<cr>
 
 set background=dark
 colorscheme molokai
-" :colorscheme  slate
+"colorscheme solarized
 set t_Co=256
 
 " <C-n> 弹出的推荐选项颜色
@@ -74,10 +74,6 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " tab line separator
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-"let g:airline#extensions#tabline#left_sep = '⮁'
-"let g:airline#extensions#tabline#left_alt_sep = '⮀'
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
@@ -91,15 +87,8 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 let g:airline_symbols.paste = 'ρ'
-
-" old vim-powerline symbols
-"let g:airline_left_sep = '⮀'
-"let g:airline_left_alt_sep = '⮁'
-"let g:airline_right_sep = '⮂'
-"let g:airline_right_alt_sep = '⮃'
-"let g:airline_symbols.branch = '⭠'
-"let g:airline_symbols.readonly = '⭤'
-"let g:airline_symbols.linenr = '⭡'
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
 
 "插件， startify
 let g:startify_change_to_dir = 0
@@ -280,14 +269,29 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
+inoremap <C-j> <CR>
+
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> [B :bfirst<CR>
 nnoremap <silent> ]B :blast<CR>
 
+noremap j jzz
+noremap k kzz
+noremap 0 ^
+noremap ^ 0
+noremap - $
+" h shift to left one char
+vnoremap - $h
+noremap * *zz
+noremap # #zz
 " 设置查找的时候居中
 noremap <Leader>n nzz
 noremap <Leader>N nzz
+noremap <C-h> b
+noremap <C-l> e
+noremap <C-o> <C-o>zz
+noremap <C-i> <C-i>zz
 
 inoremap jj <Esc>
 
@@ -295,6 +299,26 @@ inoremap {<CR> {<CR>}<ESC>O
 inoremap {<C-j> {<CR>}<ESC>O
 inoremap {} {}
 inoremap {; {<CR>};<ESC>O
+
+inoremap ( ()<ESC>i
+inoremap () ()
+inoremap [ []<ESC>i
+inoremap [] []
+inoremap < <><ESC>i
+inoremap <<SPACE> <<ESC><RIGHT>r<SPACE>a
+inoremap << <<<ESC><RIGHT>r<SPACE>a<BACKSPACE>
+inoremap <= <=<ESC>a
+inoremap <> <><ESC>a
+inoremap " ""<ESC>a
+inoremap "" ""
+inoremap ' ''<ESC>a
+inoremap '' ''
+
+"alt + hjkl 插入模式下移动
+inoremap <m-l> <Right>
+inoremap <m-h> <Left>
+inoremap <m-j> <Down>
+inoremap <m-k> <Up>
 
 "vim 和终端背景一致：添加下面到 .vimrc
 hi Normal ctermfg=252 ctermbg=none
