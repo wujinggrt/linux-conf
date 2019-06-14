@@ -30,19 +30,15 @@ Plug 'majutsushi/tagbar'
 Plug 'Valloric/YouCompleteMe'
 call plug#end()
 
-" leader 
-let mapleader=','
-let g:mapleader=','
-noremap \ ,
-
-" 使用 leader+w 直接保存
-inoremap <leader>w <Esc>:w<cr>
-noremap <leader>w :w<cr>
-
 set background=dark
 colorscheme molokai
 "colorscheme solarized
 set t_Co=256
+
+" leader 
+let mapleader=','
+let g:mapleader=','
+noremap \ ,
 
 " <C-n> 弹出的推荐选项颜色
 highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
@@ -72,6 +68,7 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 "打开tabline功能,方便查看Buffer和切换,省去了minibufexpl插件
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#whitespace#enabled = 0
 " tab line separator
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -186,6 +183,13 @@ nmap <Leader>t :TagbarToggle<CR>
 let g:ycm_key_list_stop_completion = ['<C-y>']
 "let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+
+" Let clangd fully control code completion
+let g:ycm_clangd_uses_ycmd_caching = 0
+" Use installed clangd, not YCM-bundled clangd which doesn't get updates.
+let g:ycm_clangd_binary_path = exepath("clangd")
+let g:ycm_clangd_args = ['-log=verbose', '-pretty']
+
 " 关闭函数原型预览窗口
 let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_show_diagnostics_ui = 0
@@ -196,9 +200,9 @@ let g:ycm_complete_in_strings=1
 let g:ycm_key_invoke_completion = '<c-space>'
 set completeopt=menu,menuone
 "let g:ycm_semantic_triggers =  {
-			"\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
-			"\ 'cs,lua,javascript': ['re!\w{2}'],
-			"\ }
+      "\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+      "\ 'cs,lua,javascript': ['re!\w{2}'],
+      "\ }
 let g:ycm_filetype_whitelist = { 
 			\ "c":1,
 			\ "cpp":1, 
@@ -207,6 +211,11 @@ let g:ycm_filetype_whitelist = {
 			\ "zsh":1,
 			\ "zimbu":1,
 			\ }
+
+nnoremap <silent> <Leader>gt  :YcmCompleter GoTo<CR>
+nnoremap <silent> <Leader>dd  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <silent> <Leader>rf  :YcmCompleter GoToReferences<CR>
+nnoremap <silent> <Leader>doc :YcmCompleter GetDoc<CR>
 
 "设置 ALT 正确映射
 set ttimeout ttimeoutlen=50
@@ -270,6 +279,21 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
+" 使用 leader+w 直接保存
+inoremap <leader>w <Esc>:w<cr>
+inoremap <leader>W <Esc>:wa<cr>
+noremap <leader>w :w<cr>
+noremap <leader>W :wa<cr>
+
+" exit
+noremap <leader>e :q<cr>
+noremap <leader>E :qa!<cr>
+noremap <leader>b :bd<cr>
+" vertical split
+noremap <leader>s :vs<cr>
+" reload without save
+noremap <leader>r :e!<cr>
+
 inoremap <C-j> <CR>
 
 nnoremap <silent> [b :bprevious<CR>
@@ -310,9 +334,9 @@ inoremap <<SPACE> <<ESC><RIGHT>r<SPACE>a
 inoremap << <<<ESC><RIGHT>r<SPACE>a<BACKSPACE>
 inoremap <= <=<ESC>a
 inoremap <> <><ESC>a
-inoremap " ""<ESC>a
+inoremap " ""<ESC>i
 inoremap "" ""
-inoremap ' ''<ESC>a
+inoremap ' ''<ESC>i
 inoremap '' ''
 
 "alt + hjkl 插入模式下移动
