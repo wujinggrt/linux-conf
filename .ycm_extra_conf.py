@@ -1,4 +1,4 @@
-# This file is NOT licensed under the GPLv3, which is the license for the rest
+# This file is NOT licensed under the GPLv4, which is the license for the rest
 # of YouCompleteMe.
 #
 # Here's the license text for this file:
@@ -74,5 +74,5 @@ def PythonSysPath( **kwargs ):
 def Settings( **kwargs ):
   return {
     'flags': [ '-x', 'c++', '-Wall', '-Wextra', '-Werror' ],
-    'interpreter_path': '/mnt/g/Programing/AnacondaUbuntu/bin/'
+    'interpreter_path': '/home/wujing/anaconda3/bin/'
   }

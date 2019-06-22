@@ -63,7 +63,8 @@ let g:airline_powerline_fonts = 1
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 11
 "set guifont=Consolas\ for\ Powerline\ FixedD:h11
 " airline status bar theme
-let g:airline_theme='powerlineish'
+"let g:airline_theme='powerlineish'
+let g:airline_theme='bubblegum'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 "打开tabline功能,方便查看Buffer和切换,省去了minibufexpl插件
 let g:airline#extensions#tabline#enabled = 1
@@ -331,13 +332,9 @@ inoremap [ []<ESC>i
 inoremap [] []
 inoremap < <><ESC>i
 inoremap <<SPACE> <<ESC><RIGHT>r<SPACE>a
-inoremap << <<<ESC><RIGHT>r<SPACE>a<BACKSPACE>
+inoremap << <<<ESC>a
 inoremap <= <=<ESC>a
 inoremap <> <><ESC>a
-inoremap " ""<ESC>i
-inoremap "" ""
-inoremap ' ''<ESC>i
-inoremap '' ''
 
 "alt + hjkl 插入模式下移动
 inoremap <m-l> <Right>

@@ -43,3 +43,8 @@ alias tnew="tmux new -s"
 export PATH=/home/wujing/anaconda3/bin:$PATH
 export TERM="screen-256color"
 export DISABLE_AUTO_TITLE='true'
+
+plugins=( git autojump vi-mode zsh-autosuggestions)
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
+
