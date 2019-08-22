@@ -3,7 +3,7 @@ filetype plugin indent on
 call plug#begin('~/.vim/plugged')
 " color and theme
 Plug 'morhetz/gruvbox'
-Plug 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized' 
 Plug 'w0ng/vim-hybrid'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -19,6 +19,9 @@ Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-easy-align'
+
+" go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " C++ highlight
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -285,6 +288,7 @@ inoremap <leader>w <Esc>:w<cr>
 inoremap <leader>W <Esc>:wa<cr>
 noremap <leader>w :w<cr>
 noremap <leader>W :wa<cr>
+noremap <leader>d dd
 
 " exit
 noremap <leader>e :q<cr>
@@ -319,8 +323,9 @@ noremap <S-l> e
 noremap <C-o> <C-o>zz
 noremap <C-i> <C-i>zz
 
-inoremap jj <Esc>
+inoremap jk <Esc>
 
+inoremap { {}<Esc>i
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {<C-j> {<CR>}<ESC>O
 inoremap {} {}
@@ -331,7 +336,8 @@ inoremap () ()
 inoremap [ []<ESC>i
 inoremap [] []
 inoremap < <><ESC>i
-inoremap <<SPACE> <<ESC><RIGHT>r<SPACE>a
+" inoremap <<SPACE> <<ESC><RIGHT>r<SPACE>a
+inoremap <<SPACE> <<SPACE>
 inoremap << <<<ESC>a
 inoremap <= <=<ESC>a
 inoremap <> <><ESC>a
@@ -341,6 +347,106 @@ inoremap <m-l> <Right>
 inoremap <m-h> <Left>
 inoremap <m-j> <Down>
 inoremap <m-k> <Up>
+inoremap <m--> <ESC>A
+inoremap <m-0> <ESC>^i
 
 "vim 和终端背景一致：添加下面到 .vimrc
 hi Normal ctermfg=252 ctermbg=none
+
+" 开始的位置，由于Esc退出，当前光标的位置是编辑模式时的左边,
+" 此时可能出现成对的字符
+" 满足() [] {} <> 等情况删除右侧
+" 即移动光标到右侧的括号，删除 (x)
+"
+" 删除操作 <C-h> 和 delete 也都是像 <Esc>s 的操作一样。
+" 这个函数的操作就是如此，右移光标和x。
+function DeleteLatterPair()
+  let l:pair_dict = {'(':')', '[':']', '{':'}', '<':'>'}
+  let l:cursor_pos = getpos(".")
+  " 光标所在行列号
+  let l:cursor_col = col(".")
+  let l:cursor_line = line(".")
+  " 数组下标从0开始，所以检查当前光标下一个
+  let l:current_line = getline(".")
+  let l:current_char = current_line[cursor_col - 1]
+  let l:next_char = current_line[cursor_col]
+  " 光标所在的列不是最后一列,
+  " 因为每一行的最后一一个是不可打印的换行符
+  if cursor_col < col("$") - 1
+    if has_key(pair_dict, current_char)
+      if pair_dict[current_char] == next_char
+        " 移动到右侧的括号，方便删除
+        " [0, row, col, 0]
+        "setpos(".", [0, line("."), cursor_col + 1, 0])
+        call setpos(".", [0, cursor_line, cursor_col + 1, 0])
+        execute "normal! \<Bs>"
+      endif
+    endif
+  endif
+endfunction
+" 情况：在删除的时候，左边的最后一个，就像末尾，要怎么处理
+" 此时 cursor_col 会得到他是最后一列，也就是 cursor_col < col("$") - 1
+" 不执行 if 判断为假。然后就不会移动到可能是右括号的位置。
+
+" Esc 之后会前进一格光标
+inoremap <C-g> <Esc>:call DeleteLatterPair()<Cr>s
+
+function! RemovePairs()
+  let l:line = getline(".")
+  let l:previous_char = l:line[col(".") - 1]
+  if index(["(", "[", "{"], l:previous_char) != -1
+    " 选择括号对位置
+    let l:original_pos = getpos(".")
+    execute "normal %"
+    let l:new_pos = getpos(".")
+
+    " 没有配对的即普通情况
+    if l:original_pos == l:new_pos
+      execute "normal! a\<BS>"
+      return
+    end
+    " let l:line2 = getline(".")
+    " 如果是末尾的话，i 不能够直接到那儿
+    " 所以需要 append
+    " if len(l:line2) == col(".")
+    "
+    " - 1 是因为换行符站在最后一格位置，即 \r
+    " 否则当括号在最后的情况，删除括号及其内容之后，
+    " 光标会前进一格，此时应该使用 a 而不是 i。比如：
+    "   vec.size() 删除之后 vec.size 光标就会被末尾给挤到了 e 的位置。
+    " 一般情况则删除之后光标仍然在左括号的位置，比如：
+    "   vec.size(); 在删除之后光标在中括号的那个位置 vec.size[];
+    " 当执行完 normal 的命令之后，返回的时候则会相当于 Esc，
+    " 从而光标又会前进一格。所以两个 if 就是确定光标在函数结束，
+    " 在同一个位置，也就是之前删除的左括号的前一个字符那儿，
+    " 然后在函数之外在执行一 a，完成功能。
+    if col("$") - 1 == col(".")
+      execute "normal! v%xa"
+    else
+      execute "normal! v%xi"
+    end  
+  else
+    " 无括号的普通情况
+    execute "normal! a\<BS>"
+  end
+endfunction
+
+inoremap <BS> <ESC>:call RemovePairs()<CR>a
+inoremap <C-h> <ESC>:call RemovePairs()<CR>a
+
+function! RemoveNextDoubleChar(char)
+  let l:line = getline(".")
+  let l:next_char = l:line[col(".")] "     
+  if a:char == l:next_char
+    execute "normal! l"
+  else
+    execute "normal! i" . a:char . ""
+  end
+endfunction
+
+" <Esc> 会吧光标前推到刚刚输入的那个字符上
+" x 也就是删除，会把后面的文本往这儿缩，
+" 或者在末尾的话，就光标前移
+inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
+inoremap ] <ESC>:call RemoveNextDoubleChar(']')<CR>a
+inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
