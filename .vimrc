@@ -389,6 +389,9 @@ noremap <C-i> <C-i>zz
 
 inoremap jk <Esc>
 
+" 给一个 word 添加双引号
+nnoremap <leader>" viw<Esc>a"<Esc>hbi"<Esc>lel
+
 inoremap { {}<Esc>i
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {<C-j> {<CR>}<ESC>O
