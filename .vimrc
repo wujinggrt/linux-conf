@@ -256,44 +256,6 @@ endfunc
 
 call Terminal_MetaMode(0)
 
-" 开始的位置，由于Esc退出，当前光标的位置是编辑模式时的左边,
-" 此时可能出现成对的字符
-" 满足() [] {} <> 等情况删除右侧
-" 即移动光标到右侧的括号，删除 (x)
-"
-" 删除操作 <C-h> 和 delete 也都是像 <Esc>s 的操作一样。
-" 这个函数的操作就是如此，右移光标和x。
-function DeleteLatterPair()
-  let l:pair_dict = {'(':')', '[':']', '{':'}', '<':'>'}
-  let l:cursor_pos = getpos(".")
-  " 光标所在行列号
-  let l:cursor_col = col(".")
-  let l:cursor_line = line(".")
-  " 数组下标从0开始，所以检查当前光标下一个
-  let l:current_line = getline(".")
-  let l:current_char = current_line[cursor_col - 1]
-  let l:next_char = current_line[cursor_col]
-  " 光标所在的列不是最后一列,
-  " 因为每一行的最后一一个是不可打印的换行符
-  if cursor_col < col("$") - 1
-    if has_key(pair_dict, current_char)
-      if pair_dict[current_char] == next_char
-        " 移动到右侧的括号，方便删除
-        " [0, row, col, 0]
-        "setpos(".", [0, line("."), cursor_col + 1, 0])
-        call setpos(".", [0, cursor_line, cursor_col + 1, 0])
-        execute "normal! \<Bs>"
-      endif
-    endif
-  endif
-endfunction
-" 情况：在删除的时候，左边的最后一个，就像末尾，要怎么处理
-" 此时 cursor_col 会得到他是最后一列，也就是 cursor_col < col("$") - 1
-" 不执行 if 判断为假。然后就不会移动到可能是右括号的位置。
-
-" Esc 之后会前进一格光标
-inoremap <C-g> <Esc>:call DeleteLatterPair()<Cr>s
-
 function! RemovePairs()
   let l:line = getline(".")
   let l:previous_char = l:line[col(".") - 1]
