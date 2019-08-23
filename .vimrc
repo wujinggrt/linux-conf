@@ -33,6 +33,11 @@ Plug 'majutsushi/tagbar'
 Plug 'Valloric/YouCompleteMe'
 call plug#end()
 
+" leader 
+let mapleader=','
+let g:mapleader=','
+noremap \ ,
+
 " <C-n> 弹出的推荐选项颜色
 highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
 highlight PMenuSel ctermfg=242 ctermbg=8 guifg=darkgrey guibg=black
@@ -320,11 +325,6 @@ set background=dark
 colorscheme molokai
 "colorscheme solarized
 set t_Co=256
-
-" leader 
-let mapleader=','
-let g:mapleader=','
-noremap \ ,
 
 set vb t_vb=
 set expandtab
