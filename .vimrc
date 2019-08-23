@@ -33,16 +33,6 @@ Plug 'majutsushi/tagbar'
 Plug 'Valloric/YouCompleteMe'
 call plug#end()
 
-set background=dark
-colorscheme molokai
-"colorscheme solarized
-set t_Co=256
-
-" leader 
-let mapleader=','
-let g:mapleader=','
-noremap \ ,
-
 " <C-n> 弹出的推荐选项颜色
 highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
 highlight PMenuSel ctermfg=242 ctermbg=8 guifg=darkgrey guibg=black
@@ -266,93 +256,6 @@ endfunc
 
 call Terminal_MetaMode(0)
 
-set vb t_vb=
-set expandtab
-set nu
-set shiftwidth=2
-set tabstop=2
-set ai
-set syntax=on
-set hlsearch
-
-set pastetoggle=<F8>
-
-" ctrl + h/j/k/l to switch window
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
-
-" 使用 leader+w 直接保存
-inoremap <leader>w <Esc>:w<cr>
-inoremap <leader>W <Esc>:wa<cr>
-noremap <leader>w :w<cr>
-noremap <leader>W :wa<cr>
-noremap <leader>d dd
-
-" exit
-noremap <leader>e :q<cr>
-noremap <leader>E :qa!<cr>
-noremap <leader>b :bd<cr>
-" vertical split
-noremap <leader>s :vs<cr>
-" reload without save
-noremap <leader>r :e!<cr>
-
-inoremap <C-j> <CR>
-
-nnoremap <silent> [b :bprevious<CR>
-nnoremap <silent> ]b :bnext<CR>
-nnoremap <silent> [B :bfirst<CR>
-nnoremap <silent> ]B :blast<CR>
-
-noremap j jzz
-noremap k kzz
-noremap 0 ^
-noremap ^ 0
-noremap - $
-" h shift to left one char
-vnoremap - $h
-noremap * *zz
-noremap # #zz
-" 设置查找的时候居中
-noremap <Leader>n nzz
-noremap <Leader>N nzz
-noremap <S-h> b
-noremap <S-l> e
-noremap <C-o> <C-o>zz
-noremap <C-i> <C-i>zz
-
-inoremap jk <Esc>
-
-inoremap { {}<Esc>i
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {<C-j> {<CR>}<ESC>O
-inoremap {} {}
-inoremap {; {<CR>};<ESC>O
-
-inoremap ( ()<ESC>i
-inoremap () ()
-inoremap [ []<ESC>i
-inoremap [] []
-inoremap < <><ESC>i
-" inoremap <<SPACE> <<ESC><RIGHT>r<SPACE>a
-inoremap <<SPACE> <<SPACE>
-inoremap << <<<ESC>a
-inoremap <= <=<ESC>a
-inoremap <> <><ESC>a
-
-"alt + hjkl 插入模式下移动
-inoremap <m-l> <Right>
-inoremap <m-h> <Left>
-inoremap <m-j> <Down>
-inoremap <m-k> <Up>
-inoremap <m--> <ESC>A
-inoremap <m-0> <ESC>^i
-
-"vim 和终端背景一致：添加下面到 .vimrc
-hi Normal ctermfg=252 ctermbg=none
-
 " 开始的位置，由于Esc退出，当前光标的位置是编辑模式时的左边,
 " 此时可能出现成对的字符
 " 满足() [] {} <> 等情况删除右侧
@@ -450,3 +353,104 @@ endfunction
 inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
 inoremap ] <ESC>:call RemoveNextDoubleChar(']')<CR>a
 inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
+
+set background=dark
+colorscheme molokai
+"colorscheme solarized
+set t_Co=256
+
+" leader 
+let mapleader=','
+let g:mapleader=','
+noremap \ ,
+
+set vb t_vb=
+set expandtab
+set nu
+set shiftwidth=2
+set tabstop=2
+set ai
+set syntax=on
+set hlsearch
+
+set pastetoggle=<F8>
+
+" select word
+nnoremap <space> viw
+
+" ctrl + h/j/k/l to switch window
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
+" 使用 leader+w 直接保存
+inoremap <leader>w <Esc>:w<cr>
+inoremap <leader>W <Esc>:wa<cr>
+noremap <leader>w :w<cr>
+noremap <leader>W :wa<cr>
+nnoremap <leader>d dd
+inoremap <leader>d <Esc>ddi
+
+" exit
+noremap <leader>e :q<cr>
+noremap <leader>E :qa!<cr>
+noremap <leader>b :bd<cr>
+" vertical split
+noremap <leader>s :vs<cr>
+" reload without save
+noremap <leader>r :e!<cr>
+
+inoremap <C-j> <CR>
+
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
+
+noremap j jzz
+noremap k kzz
+noremap 0 ^
+noremap ^ 0
+noremap - $
+" h shift to left one char
+vnoremap - $h
+noremap * *zz
+noremap # #zz
+" 设置查找的时候居中
+noremap <Leader>n nzz
+noremap <Leader>N nzz
+noremap <S-h> b
+noremap <S-l> e
+noremap <C-o> <C-o>zz
+noremap <C-i> <C-i>zz
+
+inoremap jk <Esc>
+
+inoremap { {}<Esc>i
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {<C-j> {<CR>}<ESC>O
+inoremap {} {}
+inoremap {; {<CR>};<ESC>O
+
+inoremap ( ()<ESC>i
+inoremap () ()
+inoremap [ []<ESC>i
+inoremap [] []
+inoremap < <><ESC>i
+" inoremap <<SPACE> <<ESC><RIGHT>r<SPACE>a
+inoremap <<SPACE> <<SPACE>
+inoremap << <<<ESC>a
+inoremap <= <=<ESC>a
+inoremap <> <><ESC>a
+
+"alt + hjkl 插入模式下移动
+inoremap <m-l> <Right>
+inoremap <m-h> <Left>
+inoremap <m-j> <Down>
+inoremap <m-k> <Up>
+inoremap <m--> <ESC>A
+inoremap <m-0> <ESC>^i
+
+"vim 和终端背景一致：添加下面到 .vimrc
+hi Normal ctermfg=252 ctermbg=none
