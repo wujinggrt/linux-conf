@@ -40,7 +40,11 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 # autojump
 [[ -s /home/wujing/.autojump/etc/profile.d/autojump.sh ]] && source /home/wujing/.autojump/etc/profile.d/autojump.sh ]]
 alias tnew="tmux new -s"
+alias ll="ls -al"
 export PATH=/home/wujing/anaconda3/bin:$PATH
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 export TERM="screen-256color"
 export DISABLE_AUTO_TITLE='true'
 

@@ -20,6 +20,11 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-easy-align'
 
+" underline the word that cursor placed
+Plug 'itchyny/vim-cursorword'
+" highlight the cursor 
+Plug 'lfv89/vim-interestingwords' 
+"
 " go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
@@ -31,7 +36,14 @@ Plug 'Shougo/echodoc.vim'
 Plug 'w0rp/ale'
 Plug 'majutsushi/tagbar'
 Plug 'Valloric/YouCompleteMe'
+
+Plug 'rhysd/vim-clang-format'
 call plug#end()
+
+" Maintain undo history between sessions
+set undofile
+" if not exist, mkdir it.
+set undodir=~/.vim/undodir
 
 " leader 
 let mapleader=','
@@ -70,7 +82,7 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#whitespace#enabled = 0
 " tab line separator
 if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+  let g:airline_symbols = {}
 endif
 
 "powerline symbols
@@ -108,14 +120,14 @@ nnoremap <silent> <F6> :AsyncRun clang++ -Wall "$(VIM_FILEPATH)" -o "$(VIM_FILED
 nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr><C-w>j<C-w>_<cr>
 
 " nerdtree
-nmap <leader>v :NERDTreeFind<CR>
-nmap <leader>g :NERDTreeToggle<CR>
+nnoremap <leader>v :NERDTreeFind<CR>
+nnoremap <leader>g :NERDTreeToggle<CR>
 let g:NERDTreeSize=25
 "修改树的显示图标
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
 
-    " Start interactive EasyAlign in visual mode (e.g. vipga)
+" Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
@@ -131,7 +143,7 @@ let s:vim_tags = expand('~/.cache/tags')
 let g:gutentags_cache_dir = s:vim_tags
 " 检测 ~/.cache/tags 不存在就新建 "
 if !isdirectory(s:vim_tags)
-    silent! call mkdir(s:vim_tags, 'p')
+  silent! call mkdir(s:vim_tags, 'p')
 endif
 
 " 配置 ctags 的参数 "
@@ -175,12 +187,13 @@ let g:ale_cpp_cppcheck_options = ''
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚡'
 
+let g:clang_format#code_style="google"
+
 " tagbar
-nmap <Leader>t :TagbarToggle<CR>
+noremap <Leader>t :TagbarToggle<CR>
 
 " 停止显示补全列表(防止列表影响视野), 可以按<C-Space>重新弹出
 let g:ycm_key_list_stop_completion = ['<C-y>']
-"let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 
 " Let clangd fully control code completion
@@ -199,17 +212,17 @@ let g:ycm_complete_in_strings=1
 let g:ycm_key_invoke_completion = '<c-space>'
 set completeopt=menu,menuone
 "let g:ycm_semantic_triggers =  {
-      "\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
-      "\ 'cs,lua,javascript': ['re!\w{2}'],
-      "\ }
+"\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+"\ 'cs,lua,javascript': ['re!\w{2}'],
+"\ }
 let g:ycm_filetype_whitelist = { 
-			\ "c":1,
-			\ "cpp":1, 
-			\ "objc":1,
-			\ "sh":1,
-			\ "zsh":1,
-			\ "zimbu":1,
-			\ }
+      \ "c":1,
+      \ "cpp":1, 
+      \ "objc":1,
+      \ "sh":1,
+      \ "zsh":1,
+      \ "zimbu":1,
+      \ }
 
 nnoremap <silent> <Leader>gt  :YcmCompleter GoTo<CR>
 nnoremap <silent> <Leader>dd  :YcmCompleter GoToDefinitionElseDeclaration<CR>
@@ -219,44 +232,44 @@ nnoremap <silent> <Leader>doc :YcmCompleter GetDoc<CR>
 "设置 ALT 正确映射
 set ttimeout ttimeoutlen=50
 function! Terminal_MetaMode(mode)
-    set ttimeout
-    if $TMUX != ''
-        set ttimeoutlen=30
-    elseif &ttimeoutlen > 80 || &ttimeoutlen <= 0
-        set ttimeoutlen=80
-    endif
-    if has('nvim') || has('gui_running')
-        return
-    endif
-    function! s:metacode(mode, key)
-        if a:mode == 0
-            exec "set <M-".a:key.">=\e".a:key
-        else
-            exec "set <M-".a:key.">=\e]{0}".a:key."~"
-        endif
-    endfunc
-    for i in range(10)
-        call s:metacode(a:mode, nr2char(char2nr('0') + i))
-    endfor
-    for i in range(26)
-        call s:metacode(a:mode, nr2char(char2nr('a') + i))
-        call s:metacode(a:mode, nr2char(char2nr('A') + i))
-    endfor
-    if a:mode != 0
-        for c in [',', '.', '/', ';', '[', ']', '{', '}']
-            call s:metacode(a:mode, c)
-        endfor
-        for c in ['?', ':', '-', '_']
-            call s:metacode(a:mode, c)
-        endfor
+  set ttimeout
+  if $TMUX != ''
+    set ttimeoutlen=30
+  elseif &ttimeoutlen > 80 || &ttimeoutlen <= 0
+    set ttimeoutlen=80
+  endif
+  if has('nvim') || has('gui_running')
+    return
+  endif
+  function! s:metacode(mode, key)
+    if a:mode == 0
+      exec "set <M-".a:key.">=\e".a:key
     else
-        for c in [',', '.', '/', ';', '{', '}']
-            call s:metacode(a:mode, c)
-        endfor
-        for c in ['?', ':', '-', '_']
-            call s:metacode(a:mode, c)
-        endfor
+      exec "set <M-".a:key.">=\e]{0}".a:key."~"
     endif
+  endfunc
+  for i in range(10)
+    call s:metacode(a:mode, nr2char(char2nr('0') + i))
+  endfor
+  for i in range(26)
+    call s:metacode(a:mode, nr2char(char2nr('a') + i))
+    call s:metacode(a:mode, nr2char(char2nr('A') + i))
+  endfor
+  if a:mode != 0
+    for c in [',', '.', '/', ';', '[', ']', '{', '}']
+      call s:metacode(a:mode, c)
+    endfor
+    for c in ['?', ':', '-', '_']
+      call s:metacode(a:mode, c)
+    endfor
+  else
+    for c in [',', '.', '/', ';', '{', '}']
+      call s:metacode(a:mode, c)
+    endfor
+    for c in ['?', ':', '-', '_']
+      call s:metacode(a:mode, c)
+    endfor
+  endif
 endfunc
 
 call Terminal_MetaMode(0)
@@ -306,12 +319,27 @@ inoremap <C-h> <ESC>:call RemovePairs()<CR>a
 
 function! RemoveNextDoubleChar(char)
   let l:line = getline(".")
-  let l:next_char = l:line[col(".")] "     
+  " 最后一列，光标在末尾，回车符那儿
+  " 也就是只需要添加一个单独的右括号
+  " 这种需求是在不小心删除了括号对的情况下发生的
+  " 
+  " 注意Esc的副作用，此时光标在之前的前一格，
+  " 也就是可能是（，所以就有currentcol等于直接获取
+  " col(".")
+  let l:current_col = col(".")
+  if l:current_col == col("$") - 1
+    execute "normal! a" . a:char . ""
+    return
+  endif
+  "     sad(das
+  " 在上这种情况添加有括号，会出)(现的请况
+  " 所以就需要 a
+  let l:next_char = l:line[current_col]
   if a:char == l:next_char
     execute "normal! l"
   else
-    execute "normal! i" . a:char . ""
-  end
+    execute "normal! a" . a:char . ""
+  endif
 endfunction
 
 " <Esc> 会吧光标前推到刚刚输入的那个字符上
@@ -370,8 +398,6 @@ nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> [B :bfirst<CR>
 nnoremap <silent> ]B :blast<CR>
 
-noremap j jzz
-noremap k kzz
 noremap 0 ^
 noremap ^ 0
 noremap - $
@@ -403,7 +429,6 @@ inoremap () ()
 inoremap [ []<ESC>i
 inoremap [] []
 inoremap < <><ESC>i
-" inoremap <<SPACE> <<ESC><RIGHT>r<SPACE>a
 inoremap <<SPACE> <<SPACE>
 inoremap << <<<ESC>a
 inoremap <= <=<ESC>a
@@ -417,5 +442,26 @@ inoremap <m-k> <Up>
 inoremap <m--> <ESC>A
 inoremap <m-0> <ESC>^i
 
+" 分别找到最近的括号
+onoremap in( :<C-u>normal! f(vi(<Cr>
+onoremap il( :<C-u>normal! F)vi(<Cr>
+
 "vim 和终端背景一致：添加下面到 .vimrc
 hi Normal ctermfg=252 ctermbg=none
+
+" 输入相关
+iabbrev itn int
+iabbrev mian main
+inoremap <leader>; <Esc>A;
+nnoremap <leader>; <Esc>A;<Esc>
+iabbrev pub <bs>public:<cr>
+
+nnoremap <leader>c I//<Esc>
+
+" C++ 输入
+autocmd FileType c,cpp   :iabbrev <buffer> iff if ()<Left>
+autocmd FileType c,cpp :iabbrev <buffer> forr for ()<Left>
+"autocmd FileType c++ nnoremap <buffer> <localleader>c I//<Esc>
+
+" Python
+"autocmd FileType python nnoremap <buffer> <localleader>c I#<Esc>
