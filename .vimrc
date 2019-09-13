@@ -456,7 +456,28 @@ inoremap <leader>; <Esc>A;
 nnoremap <leader>; <Esc>A;<Esc>
 iabbrev pub <bs>public:<cr>
 
-nnoremap <leader>c I//<Esc>
+function! MakeOrRemoveComment()
+  let l:line = getline(".")
+  " now is in head after motion ^
+  let l:current_col = col(".")
+  if l:line[l:current_col - 1] == "/"
+    if l:current_col == col("$") - 1
+      execute "normal! I//\<Esc>`p\<Right>\<Right>"
+      return
+    endif
+    if l:line[l:current_col] == "/"
+      execute "normal! xx`p\<Left>\<Left>"
+    else
+      execute "normal! I//\<Esc>`p\<Right>\<Right>"
+    endif
+  else
+    execute "normal! I//\<Esc>`p\<Right>\<Right>"
+  endif
+endfunction
+
+" make /* */ block comments
+
+nnoremap <leader>c <Esc>mp^:call MakeOrRemoveComment()<Cr>
 
 " C++ 输入
 autocmd FileType c,cpp   :iabbrev <buffer> iff if ()<Left>
