@@ -34,6 +34,17 @@ import subprocess
 DIR_OF_THIS_SCRIPT = p.abspath( p.dirname( __file__ ) )
 DIR_OF_THIRD_PARTY = p.join( DIR_OF_THIS_SCRIPT, 'third_party' )
 
+SOURCE_EXTENSIONS = [ '.cpp', '.cxx', '.cc', '.c', '.ino', '.m', '.mm' ]
+
+flags = [
+   '-x',
+   #'c', '-std=c99', 
+   'c++', '-std=c++17',
+   '-Wall',
+   '-Wextra',
+   #'-isystem/usr/include/', # for C
+   '-Werror' 
+]
 
 def GetStandardLibraryIndexInSysPath( sys_path ):
   for index, path in enumerate( sys_path ):
@@ -73,6 +84,6 @@ def PythonSysPath( **kwargs ):
 
 def Settings( **kwargs ):
   return {
-    'flags': [ '-x', 'c++', '-Wall', '-Wextra', '-Werror' ],
+    'flags': flags,
     'interpreter_path': '/home/wujing/anaconda3/bin/'
   }

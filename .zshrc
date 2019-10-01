@@ -35,6 +35,16 @@ zstyle ':completion:*' verbose true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+# promote start new line
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="↱"
+POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="↳ "
+#POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX="λ"
+#POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX="> "
+# 新的命令与上面的命令隔开一行
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # autojump
@@ -45,11 +55,26 @@ export ANACONDAPATH=/home/wujing/anaconda3/bin
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 export RUSTPATH=$HOME/.cargo/bin
-export PATH=$ANACONDAPATH:$RUSTPATH:$GOROOT/bin:$GOPATH/bin:$PATH
+export JAVA_HOME=/usr/local/jdk1.8.0_221
+export JRE_HOME=$JAVA_HOME/jre
+# for scala
+export SBT_HOME=/usr/local/sbt
+export PATH=$SBT_HOME/bin:$JAVA_HOME/bin:$ANACONDAPATH:$RUSTPATH:$GOROOT/bin:$GOPATH/bin:$PATH
 export TERM="screen-256color"
 export DISABLE_AUTO_TITLE='true'
 
-plugins=( git autojump vi-mode zsh-autosuggestions)
+# for autosuggestions dependency
+#antigen bundle zsh-users/zsh-autosuggestions
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
+plugins=(
+  git 
+  autojump 
+  vi-mode 
+  zsh-autosuggestions
+)
+
+#source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=11,bg=gray,bold,underline"
 

@@ -108,7 +108,7 @@ let g:asyncrun_open = 6
 " 任务结束时候响铃提醒
 let g:asyncrun_bell = 1
 " 编译单个文件。
-nnoremap <silent> <F9> :AsyncRun clang++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+nnoremap <silent> <F9> :AsyncRun clang++ -std=c++17 -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 " 运行编译之后的当前文件
 " 用双引号引起来避免文件名包含空格，“-cwd=$(VIM_FILEDIR)”
 " 的意思时在文件文件的所在目录运行可执行，后面可执行使用了全路径，避免 linux
@@ -180,7 +180,7 @@ let g:ale_lint_on_insert_leave = 1
 let g:airline#extensions#ale#enabled = 1
 
 let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++17'
 let g:ale_c_cppcheck_options = ''
 let g:ale_cpp_cppcheck_options = ''
 
@@ -204,17 +204,22 @@ let g:ycm_clangd_args = ['-log=verbose', '-pretty']
 
 " 关闭函数原型预览窗口
 let g:ycm_add_preview_to_completeopt = 0
+"关闭语法提示
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_server_log_level = 'info'
+" 输入第二个关键字就开始补全
 let g:ycm_min_num_identifier_candidate_chars = 2
+" 收录中文也能够不全
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_complete_in_strings=1
+" 主动补全
 let g:ycm_key_invoke_completion = '<c-space>'
 set completeopt=menu,menuone
 "let g:ycm_semantic_triggers =  {
 "\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
 "\ 'cs,lua,javascript': ['re!\w{2}'],
 "\ }
+" 只对这些文件分析，否则打开其他文件很慢
 let g:ycm_filetype_whitelist = { 
       \ "c":1,
       \ "cpp":1, 
