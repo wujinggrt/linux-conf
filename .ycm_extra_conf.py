@@ -38,12 +38,22 @@ SOURCE_EXTENSIONS = [ '.cpp', '.cxx', '.cc', '.c', '.ino', '.m', '.mm' ]
 
 flags = [
    '-x',
-   #'c', '-std=c99', 
    'c++', '-std=c++17',
+   #'c', '-std=c99', 
    '-Wall',
    '-Wextra',
-   #'-isystem/usr/include/', # for C
-   '-Werror' 
+   '-I', '/usr/include',
+   #'-isystem',
+   #'/usr/local/boost_root',
+   #'-system',
+   #'/usr/local/boost_root/boost',
+   #'-isystem',
+   #'/usr/include/python3',
+   # boost
+   '-isystem', '/usr/local/include',
+   '-isystem', '/usr/local/include/boost',
+   '-Werror',
+   './header'
 ]
 
 def GetStandardLibraryIndexInSysPath( sys_path ):

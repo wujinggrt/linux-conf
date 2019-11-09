@@ -7,7 +7,8 @@ prompt adam1
 setopt histignorealldups sharehistory
 
 # Use emacs keybindings even if our EDITOR is set to vi
-bindkey -e
+#bindkey -e
+export EDITOR=vim
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
@@ -51,7 +52,7 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ -s /home/wujing/.autojump/etc/profile.d/autojump.sh ]] && source /home/wujing/.autojump/etc/profile.d/autojump.sh ]]
 alias tnew="tmux new -s"
 alias ll="ls -al"
-export ANACONDAPATH=/home/wujing/anaconda3/bin
+export ANACONDAPATH=$HOME/anaconda3/bin
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 export RUSTPATH=$HOME/.cargo/bin
@@ -59,7 +60,10 @@ export JAVA_HOME=/usr/local/jdk1.8.0_221
 export JRE_HOME=$JAVA_HOME/jre
 # for scala
 export SBT_HOME=/usr/local/sbt
-export PATH=$SBT_HOME/bin:$JAVA_HOME/bin:$ANACONDAPATH:$RUSTPATH:$GOROOT/bin:$GOPATH/bin:$PATH
+export BOOST_INCLUDE=/usr/local/include
+export BOOST_LIB=/usr/local/lib
+export PATH=$BOOST_LIB:$SBT_HOME/bin:$JAVA_HOME/bin:$ANACONDAPATH:$RUSTPATH:$GOROOT/bin:$GOPATH/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 export TERM="screen-256color"
 export DISABLE_AUTO_TITLE='true'
 
