@@ -121,7 +121,7 @@ noremap <leader>s :vs<cr>
 " reload without save
 noremap <leader>r :e!<cr>
 
-inoremap <C-j> <CR>
+inoremap <C-j> <Esc>o
 
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
@@ -211,7 +211,6 @@ function! MakeOrRemoveComment()
 endfunction
 
 " make /* */ block comments
-
 nnoremap <leader>c <Esc>mp^:call MakeOrRemoveComment()<Cr>
 
 " C++ 输入
