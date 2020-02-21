@@ -33,7 +33,6 @@ Plug 'lfv89/vim-interestingwords'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-Plug 'Shougo/echodoc.vim'
 Plug 'dense-analysis/ale'
 Plug 'majutsushi/tagbar'
 Plug 'Valloric/YouCompleteMe'
@@ -42,6 +41,16 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'Shougo/echodoc.vim'
 
 Plug 'rhysd/vim-clang-format'
+
+" completion
+" Use release branch (Recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'honza/vim-snippets'
+
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-smooth-scroll'
+Plug 'junegunn/vim-slash'
 call plug#end()
 
 " check undo file if not exist
@@ -312,6 +321,20 @@ nnoremap <silent> <Leader>dd  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <silent> <Leader>rf  :YcmCompleter GoToReferences<CR>
 nnoremap <silent> <Leader>doc :YcmCompleter GetDoc<CR>
 
+" Repeat
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
+
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+noremap <plug>(slash-after) zz
+
+" To use echodoc, you must increase 'cmdheight' value.
+set cmdheight=2
+let g:echodoc_enable_at_startup = 1
+
 "设置 ALT 正确映射
 set ttimeout ttimeoutlen=50
 function! Terminal_MetaMode(mode)
@@ -357,6 +380,8 @@ endfunc
 
 call Terminal_MetaMode(0)
 
+" 加载自定义配置
 for f in split(glob('~/.vimconf/*.vim'), '\n')
   exe 'source' f
 endfor
+
