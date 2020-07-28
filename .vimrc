@@ -2,9 +2,14 @@ filetype plugin indent on
 
 call plug#begin('~/.vim/plugged')
 " color and theme
+" themes ============================================
+Plug 'ajmwagar/vim-deus'
+Plug 'crusoexia/vim-monokai'
+Plug 'rakr/vim-one'
 Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized' 
 Plug 'w0ng/vim-hybrid'
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tomasr/molokai'
