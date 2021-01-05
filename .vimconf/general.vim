@@ -1,3 +1,48 @@
+j"设置 ALT 正确映射
+set ttimeout ttimeoutlen=50
+function! Terminal_MetaMode(mode)
+  set ttimeout
+  if $TMUX != ''
+    set ttimeoutlen=30
+  elseif &ttimeoutlen > 80 || &ttimeoutlen <= 0
+    set ttimeoutlen=80
+  endif
+  if has('nvim') || has('gui_running')
+    return
+  endif
+  function! s:metacode(mode, key)
+    if a:mode == 0
+      exec "set <M-".a:key.">=\e".a:key
+    else
+      exec "set <M-".a:key.">=\e]{0}".a:key."~"
+    endif
+  endfunc
+  for i in range(10)
+    call s:metacode(a:mode, nr2char(char2nr('0') + i))
+  endfor
+  for i in range(26)
+    call s:metacode(a:mode, nr2char(char2nr('a') + i))
+    call s:metacode(a:mode, nr2char(char2nr('A') + i))
+  endfor
+  if a:mode != 0
+    for c in [',', '.', '/', ';', '[', ']', '{', '}']
+      call s:metacode(a:mode, c)
+    endfor
+    for c in ['?', ':', '-', '_']
+      call s:metacode(a:mode, c)
+    endfor
+  else
+    for c in [',', '.', '/', ';', '{', '}']
+      call s:metacode(a:mode, c)
+    endfor
+    for c in ['?', ':', '-', '_']
+      call s:metacode(a:mode, c)
+    endfor
+  endif
+endfunc
+
+call Terminal_MetaMode(0)
+
 function! RemovePairs()
   let l:line = getline(".")
   let l:previous_char = l:line[col(".") - 1]
@@ -75,9 +120,9 @@ inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
 
 set background=dark
 "colorscheme molokai
-colorscheme solarized
+"colorscheme one
 "colorscheme hybrid
-"colorscheme codedark
+colorscheme gruvbox
 set t_Co=256
 
 set vb t_vb=
@@ -86,7 +131,7 @@ set nu
 set numberwidth=3
 "强制侧边符号栏
 "auto/yes/no
-set signcolumn=no
+set signcolumn=auto
 set shiftwidth=2
 set tabstop=2
 set ai
@@ -116,8 +161,9 @@ inoremap <leader>d <Esc>ddi
 noremap <leader>e :q<cr>
 noremap <leader>E :qa!<cr>
 noremap <leader>b :bd<cr>
-" vertical split
+" vertical/horizontal split
 noremap <leader>s :vs<cr>
+noremap <leader>S :split<cr>
 " reload without save
 noremap <leader>r :e!<cr>
 
@@ -127,6 +173,21 @@ nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> [B :bfirst<CR>
 nnoremap <silent> ]B :blast<CR>
+
+noremap <silent><tab>t :tabnew<CR>
+noremap <silent><tab>e :tabclose<CR>
+noremap <silent><tab>n :tabn<CR>
+noremap <silent><tab>p :tabp<CR>
+noremap <silent><leader>1 :tabn 1<CR>
+noremap <silent><leader>2 :tabn 2<CR>
+noremap <silent><leader>3 :tabn 3<CR>
+noremap <silent><leader>4 :tabn 4<CR>
+noremap <silent><leader>5 :tabn 5<CR>
+noremap <silent><leader>6 :tabn 6<CR>
+noremap <silent><leader>7 :tabn 7<CR>
+noremap <silent><leader>8 :tabn 8<CR>
+noremap <silent><leader>9 :tabn 9<CR>
+noremap <silent><leader>0 :tabn 0<CR>
 
 noremap 0 ^
 noremap ^ 0
@@ -144,6 +205,8 @@ noremap <C-o> <C-o>zz
 noremap <C-i> <C-i>zz
 
 inoremap jk <Esc>
+nnoremap j gj
+nnoremap k gk
 
 " 给一个 word 添加双引号
 nnoremap <leader>" viw<Esc>a"<Esc>hbi"<Esc>lel
@@ -172,8 +235,8 @@ inoremap <m-k> <Up>
 inoremap <m--> <ESC>A
 inoremap <m-0> <ESC>^i
 
-nnoremap <m-j> jjj
-nnoremap <m-k> kkk
+nnoremap <c-j> jjj
+nnoremap <c-k> kkk
 
 nnoremap <BackSpace> :nohl<Cr>
 
@@ -185,11 +248,8 @@ onoremap il( :<C-u>normal! F)vi(<Cr>
 hi Normal ctermfg=252 ctermbg=none
 
 " 输入相关
-iabbrev itn int
-iabbrev mian main
 inoremap <leader>; <Esc>A;
 nnoremap <leader>; <Esc>A;<Esc>
-iabbrev pub <bs>public:<cr>
 
 function! MakeOrRemoveComment()
   let l:line = getline(".")
@@ -212,11 +272,3 @@ endfunction
 
 " make /* */ block comments
 nnoremap <leader>c <Esc>mp^:call MakeOrRemoveComment()<Cr>
-
-" C++ 输入
-autocmd FileType c,cpp   :iabbrev <buffer> iff if ()<Left>
-autocmd FileType c,cpp :iabbrev <buffer> forr for ()<Left>
-"autocmd FileType c++ nnoremap <buffer> <localleader>c I//<Esc>
-
-" Python
-"autocmd FileType python nnoremap <buffer> <localleader>c I#<Esc>
