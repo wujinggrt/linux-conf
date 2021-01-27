@@ -138,6 +138,8 @@ set ai
 set syntax=on
 set hlsearch
 
+" set foldmethod=indent
+
 set pastetoggle=<F8>
 
 " select word
@@ -154,8 +156,6 @@ inoremap <leader>w <Esc>:w<cr>
 inoremap <leader>W <Esc>:wa<cr>
 noremap <leader>w :w<cr>
 noremap <leader>W :wa<cr>
-nnoremap <leader>d dd
-inoremap <leader>d <Esc>ddi
 
 " exit
 noremap <leader>e :q<cr>
@@ -167,27 +167,27 @@ noremap <leader>S :split<cr>
 " reload without save
 noremap <leader>r :e!<cr>
 
-inoremap <C-j> <Esc>o
+inoremap <silent> <C-j> <Esc>o
 
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> [B :bfirst<CR>
 nnoremap <silent> ]B :blast<CR>
 
-noremap <silent><tab>t :tabnew<CR>
-noremap <silent><tab>e :tabclose<CR>
-noremap <silent><tab>n :tabn<CR>
-noremap <silent><tab>p :tabp<CR>
-noremap <silent><leader>1 :tabn 1<CR>
-noremap <silent><leader>2 :tabn 2<CR>
-noremap <silent><leader>3 :tabn 3<CR>
-noremap <silent><leader>4 :tabn 4<CR>
-noremap <silent><leader>5 :tabn 5<CR>
-noremap <silent><leader>6 :tabn 6<CR>
-noremap <silent><leader>7 :tabn 7<CR>
-noremap <silent><leader>8 :tabn 8<CR>
-noremap <silent><leader>9 :tabn 9<CR>
-noremap <silent><leader>0 :tabn 0<CR>
+noremap <silent> <tab>t :tabnew<CR>
+noremap <silent> <tab>e :tabclose<CR>
+noremap <silent> <tab>n :tabn<CR>
+noremap <silent> <tab>p :tabp<CR>
+noremap <silent> <leader>1 :tabn 1<CR>
+noremap <silent> <leader>2 :tabn 2<CR>
+noremap <silent> <leader>3 :tabn 3<CR>
+noremap <silent> <leader>4 :tabn 4<CR>
+noremap <silent> <leader>5 :tabn 5<CR>
+noremap <silent> <leader>6 :tabn 6<CR>
+noremap <silent> <leader>7 :tabn 7<CR>
+noremap <silent> <leader>8 :tabn 8<CR>
+noremap <silent> <leader>9 :tabn 9<CR>
+noremap <silent> <leader>0 :tabn 0<CR>
 
 noremap 0 ^
 noremap ^ 0
@@ -207,6 +207,8 @@ noremap <C-i> <C-i>zz
 inoremap jk <Esc>
 nnoremap j gj
 nnoremap k gk
+nnoremap <M-j> 5jzz
+nnoremap <M-k> 5kzz
 
 " 给一个 word 添加双引号
 nnoremap <leader>" viw<Esc>a"<Esc>hbi"<Esc>lel
@@ -235,8 +237,7 @@ inoremap <m-k> <Up>
 inoremap <m--> <ESC>A
 inoremap <m-0> <ESC>^i
 
-nnoremap <c-j> jjj
-nnoremap <c-k> kkk
+inoremap <C-l> <Right>
 
 nnoremap <BackSpace> :nohl<Cr>
 

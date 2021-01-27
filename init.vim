@@ -23,6 +23,8 @@ Plug 'itchyny/vim-cursorword'
 " highlight the cursor 
 Plug 'lfv89/vim-interestingwords' 
 
+Plug 'gabrielelana/vim-markdown'
+
 Plug 'justinmk/vim-sneak'
 
 Plug 'ludovicchabant/vim-gutentags'
@@ -157,6 +159,10 @@ let g:Lf_PreviewInPopup = 1
 
 "插件， startify
 let g:startify_change_to_dir = 0
+
+" markdown 插件禁止语法检查，中文检测不行
+let g:markdown_enable_spell_checking = 0
+let g:markdown_enable_input_abbreviations = 0
 
 " tags
 " 名字设置为 .tags 避免污染工程目录，同时 .gitignore 可以忽视
