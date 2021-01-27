@@ -1,4 +1,4 @@
 # tool-configs
 Tool configs
 
-zsh config:
+zsh config: .zshrc
