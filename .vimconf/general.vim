@@ -1,4 +1,4 @@
-j"设置 ALT 正确映射
+"设置 ALT 正确映射
 set ttimeout ttimeoutlen=50
 function! Terminal_MetaMode(mode)
   set ttimeout
@@ -174,7 +174,7 @@ nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> [B :bfirst<CR>
 nnoremap <silent> ]B :blast<CR>
 
-noremap <silent> <tab>t :tabnew<CR>
+noremap <silent> <tab>t :tabnew<CR>:vs<CR>
 noremap <silent> <tab>e :tabclose<CR>
 noremap <silent> <tab>n :tabn<CR>
 noremap <silent> <tab>p :tabp<CR>
