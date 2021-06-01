@@ -217,7 +217,7 @@ inoremap { {}<Esc>i
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {<C-j> {<CR>}<ESC>O
 inoremap {} {}
-inoremap {; {<CR>};<ESC>O<ESC>i
+inoremap {;p {<CR>};<ESC>O<ESC>ipublic:<ESC><<I<SPACE><ESC>o<BS>
 
 inoremap ( ()<ESC>i
 inoremap () ()
